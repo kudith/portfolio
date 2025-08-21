@@ -1,0 +1,37 @@
+[
+  {
+    "title": "Trading Education Platform – Exempli Gratia Indonesia",
+    "description": "A learning management system developed for internal training and education, featuring an integrated admin dashboard to manage content, track users, and monitor performance analytics.",
+    "tags": ["Next.js", "TypeScript", "Tailwind", "MongoDB"],
+    "live": "#",
+    "repo": "#"
+  },
+  {
+    "title": "Web-based POS System – Exempli Gratia Indonesia",
+    "description": "A point-of-sale web application supporting transaction processing, inventory management, and sales reporting, which helped streamline operational workflows and improve efficiency.",
+    "tags": ["React", "Node.js", "Express", "MongoDB"],
+    "live": "#",
+    "repo": "#"
+  },
+  {
+    "title": "Business Profile Website – Freelance Project",
+    "description": "A responsive and modern business profile website built as a freelance project, optimized for SEO, accessibility, and smooth user navigation.",
+    "tags": ["Next.js", "Shadcn UI", "Tailwind"],
+    "live": "#",
+    "repo": "#"
+  },
+  {
+    "title": "Digital Voting Platform – Academic Project",
+    "description": "A secure online voting system designed as part of an academic project, implementing role-based access control, encrypted vote storage, and real-time result tallying.",
+    "tags": ["Next.js", "MongoDB", "Shadcn UI"],
+    "live": "#",
+    "repo": "#"
+  },
+  {
+    "title": "Digital Document Signature – Academic Project",
+    "description": "An academic project enabling cryptographic document signing using RSA/ECDSA, with features including QR code verification, authenticity validation, and AI-assisted content analysis.",
+    "tags": ["Next.js", "Node.js", "Crypto", "AI"],
+    "live": "#",
+    "repo": "#"
+  }
+]

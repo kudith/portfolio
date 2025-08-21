@@ -354,7 +354,7 @@ export default function Navbar({
                       href={`mailto:${contactEmail}`}
                       onClick={() => setIsOpen(false)}
                     >
-                      Let's cook something epic 🔥
+                      Let&apos;s cook something cool 🔥
                     </Link>
                   </Button>
                 </motion.div>

@@ -11,7 +11,6 @@ import {
 } from "framer-motion";
 import { useRef, useLayoutEffect, useState } from "react";
 import {
-  // Technology icons from react-icons
   SiReact,
   SiNextdotjs,
   SiTypescript,
@@ -97,7 +96,7 @@ const InfoSection = () => {
             }}
             viewport={{ once: true }}
           >
-            Aditya
+            Ginanjar
           </motion.span>{" "}
           <motion.span
             initial={{ opacity: 0, x: 20 }}
@@ -109,7 +108,7 @@ const InfoSection = () => {
             }}
             viewport={{ once: true }}
           >
-            Pratama
+            Aditya Prianata
           </motion.span>
         </motion.h3>
 
@@ -214,7 +213,6 @@ const VelocityTechRow = ({ techList, velocity = 100, className = "" }) => {
   useLayoutEffect(() => {
     function updateWidth() {
       if (containerRef.current) {
-        // Menggunakan scrollWidth / 3 karena ada 3 set duplikat
         setContainerWidth(containerRef.current.scrollWidth / 3);
       }
     }
@@ -237,7 +235,6 @@ const VelocityTechRow = ({ techList, velocity = 100, className = "" }) => {
   useAnimationFrame((t, delta) => {
     let moveBy = directionFactor.current * velocity * (delta / 1000);
 
-    // Responsive velocity based on scroll but more subtle
     const scrollEffect = velocityFactor.get();
     if (scrollEffect < 0) {
       directionFactor.current = -1;
@@ -256,7 +253,6 @@ const VelocityTechRow = ({ techList, velocity = 100, className = "" }) => {
         className="flex whitespace-nowrap"
         style={{ x }}
       >
-        {/* First set */}
         {techList.map((tech, index) => {
           const IconComponent = tech.icon;
           return (
@@ -276,7 +272,6 @@ const VelocityTechRow = ({ techList, velocity = 100, className = "" }) => {
             </motion.div>
           );
         })}
-        {/* Second set for seamless loop */}
         {techList.map((tech, index) => {
           const IconComponent = tech.icon;
           return (
@@ -296,7 +291,6 @@ const VelocityTechRow = ({ techList, velocity = 100, className = "" }) => {
             </motion.div>
           );
         })}
-        {/* Third set untuk memastikan tidak putus */}
         {techList.map((tech, index) => {
           const IconComponent = tech.icon;
           return (
@@ -323,7 +317,6 @@ const VelocityTechRow = ({ techList, velocity = 100, className = "" }) => {
 
 // Tech stack dengan scroll velocity
 const TechStack = () => {
-  // Membagi teknologi menjadi dua baris
   const firstRowTech = technologies.slice(0, 6);
   const secondRowTech = technologies.slice(6);
 
@@ -369,17 +362,14 @@ const TechStack = () => {
       </div>
 
       <div className="space-y-4">
-        {/* Baris pertama - bergerak ke kanan */}
         <VelocityTechRow techList={firstRowTech} velocity={80} />
-
-        {/* Baris kedua - bergerak ke kiri */}
         <VelocityTechRow techList={secondRowTech} velocity={-80} />
       </div>
     </motion.div>
   );
 };
 
-// Principles section dengan timeline animations
+// Updated Principles section dengan aesthetic card-based layout
 const Principles = () => {
   return (
     <motion.div
@@ -387,13 +377,12 @@ const Principles = () => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{
         duration: 1,
-        delay: 0.1,
         ease: [0.25, 0.46, 0.45, 0.94],
       }}
       viewport={{ once: true, margin: "-50px" }}
-      className="space-y-8"
+      className="space-y-12 max-w-5xl mx-auto"
     >
-      <div className="text-center space-y-3">
+      <div className="text-center space-y-4">
         <motion.h3
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -418,92 +407,90 @@ const Principles = () => {
           viewport={{ once: true }}
           className="text-foreground/60 text-lg font-light max-w-md mx-auto"
         >
-          Core principles that guide my work
+          Core principles that shape my approach to development
         </motion.p>
       </div>
 
-      <div className="relative max-w-2xl mx-auto">
-        {/* Timeline vertical line dengan elegant animation */}
-        <motion.div
-          initial={{ scaleY: 0, opacity: 0 }}
-          whileInView={{ scaleY: 1, opacity: 1 }}
-          transition={{
-            duration: 1.5,
-            delay: 0.5,
-            ease: [0.25, 0.46, 0.45, 0.94],
-          }}
-          viewport={{ once: true }}
-          className="absolute left-8 top-0 bottom-0 w-[2px] bg-gradient-to-b from-foreground/20 via-foreground/10 to-transparent rounded-full origin-top"
-          style={{ zIndex: 0 }}
-        />
-
-        <div className="flex flex-col gap-16 relative z-10">
-          {principles.map((principle, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        {principles.map((principle, index) => (
+          <motion.div
+            key={principle.title}
+            initial={{ opacity: 0, y: 50, rotateX: -10 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{
+              duration: 0.8,
+              delay: 0.3 + index * 0.2,
+              ease: [0.25, 0.46, 0.45, 0.94],
+            }}
+            viewport={{ once: true }}
+            whileHover={{
+              y: -10,
+              boxShadow: "0 15px 30px rgba(0, 0, 0, 0.1)",
+              transition: { duration: 0.3 },
+            }}
+            className="relative bg-background/90 backdrop-blur-md rounded-2xl p-6 border border-foreground/10 shadow-lg"
+            style={{
+              transform: `translateY(${index * 20}px)`,
+              zIndex: principles.length - index,
+            }}
+          >
+            {/* Icon dengan subtle gradient background */}
             <motion.div
-              key={principle.title}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ scale: 0.8, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
               transition={{
-                duration: 0.8,
+                duration: 0.6,
+                delay: 0.5 + index * 0.2,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              viewport={{ once: true }}
+              className="w-14 h-14 rounded-full bg-gradient-to-br from-foreground/10 to-foreground/5 flex items-center justify-center mb-4 mx-auto"
+            >
+              <principle.icon className="w-8 h-8 text-foreground/80" />
+            </motion.div>
+
+            {/* Title dan Description */}
+            <motion.h4
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.6,
                 delay: 0.7 + index * 0.2,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
               viewport={{ once: true }}
-              className="flex items-start gap-6"
+              className="text-xl font-serif font-semibold text-foreground text-center mb-2"
             >
-              {/* Icon dalam circle dengan subtle hover */}
-              <div className="relative z-10">
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.9 + index * 0.2,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                  viewport={{ once: true }}
-                  whileHover={{
-                    scale: 1.1,
-                    transition: { duration: 0.3 },
-                  }}
-                  className="w-16 h-16 rounded-full bg-gradient-to-br from-muted/80 to-muted/40 backdrop-blur-sm flex items-center justify-center shadow-lg border border-border/20"
-                >
-                  <principle.icon className="w-7 h-7 text-foreground/70" />
-                </motion.div>
-              </div>
+              {principle.title}
+            </motion.h4>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.6,
+                delay: 0.9 + index * 0.2,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              viewport={{ once: true }}
+              className="text-base text-foreground/70 leading-relaxed font-light text-center"
+            >
+              {principle.description}
+            </motion.p>
 
-              {/* Content */}
-              <div className="flex-1 pt-2">
-                <motion.h4
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 1.1 + index * 0.2,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                  viewport={{ once: true }}
-                  className="text-xl font-serif font-semibold text-foreground mb-2"
-                >
-                  {principle.title}
-                </motion.h4>
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 1.3 + index * 0.2,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                  }}
-                  viewport={{ once: true }}
-                  className="text-base text-foreground/70 leading-relaxed font-light"
-                >
-                  {principle.description}
-                </motion.p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+            {/* Decorative element */}
+            <motion.div
+              initial={{ scaleX: 0, opacity: 0 }}
+              whileInView={{ scaleX: 1, opacity: 1 }}
+              transition={{
+                duration: 0.8,
+                delay: 1.1 + index * 0.2,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              viewport={{ once: true }}
+              className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent"
+            />
+          </motion.div>
+        ))}
       </div>
     </motion.div>
   );
@@ -516,7 +503,6 @@ export default function AboutSection() {
       className="relative py-32 px-4 md:px-8 lg:px-12 bg-background overflow-hidden"
     >
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section title dengan refined animation */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -566,13 +552,9 @@ export default function AboutSection() {
           />
         </motion.div>
 
-        {/* Main content - Stacked layout */}
         <div className="space-y-32">
-          {/* Centered info section */}
           <InfoSection />
-          {/* Tech Stack section */}
           <TechStack />
-          {/* Principles section */}
           <Principles />
         </div>
       </div>

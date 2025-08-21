@@ -22,8 +22,9 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Portfolio - Aditya Pratama",
-  description: "Full Stack Developer crafting elegant digital experiences with modern web technologies",
+  title: "Portfolio - ADTY",
+  description:
+    "Full Stack Developer crafting elegant digital experiences with modern web technologies",
 };
 
 export default function RootLayout({ children }) {

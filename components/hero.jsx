@@ -209,20 +209,20 @@ export default function HeroSection({
   title = "Fullstack Developer",
   subtitle = "Building cool stuff for the web, one pixel at a time.",
   description = "I turn ideas into digital products that actually work. Currently open for collabs, freelance, or just a coffee chat. Let's make something awesome, no cap.",
-  location = "Jakarta, ID",
+  location = "Tasikmalaya, ID",
   status = "Available for projects",
   cvUrl = "/resume.pdf",
   contactEmail = "hello@adityapratama.dev",
   socialLinks = [
     {
       name: "github",
-      href: "https://github.com/username",
+      href: "https://github.com/kudith",
       icon: <Github className="w-full h-full" />,
       label: "GitHub Profile",
     },
     {
       name: "linkedin",
-      href: "https://linkedin.com/in/username",
+      href: "https://www.linkedin.com/in/ginanjar-aditiya-prianata-744691242/",
       icon: <Linkedin className="w-full h-full" />,
       label: "LinkedIn Profile",
     },
@@ -271,18 +271,22 @@ export default function HeroSection({
                 ease: [0.16, 1, 0.3, 1],
               }}
               className="hero-title text-7xl md:text-8xl lg:text-9xl text-foreground tracking-tighter cursor-default"
+              whileHover="hover"
             >
               <motion.span
                 className="block"
-                whileHover={{
-                  scale: 1.02,
-                  textShadow: "0 0 20px rgba(0,0,0,0.1)",
+                variants={{
+                  initial: { scale: 1, textShadow: "0 0 0px rgba(0,0,0,0)" },
+                  hover: {
+                    scale: 1.03,
+                    textShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                  },
                 }}
                 transition={{
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 20,
+                  duration: 0.5,
+                  ease: [0.25, 0.46, 0.45, 0.94],
                 }}
+                initial="initial"
               >
                 {title}
               </motion.span>
@@ -298,7 +302,7 @@ export default function HeroSection({
               }}
               className="space-y-2"
             >
-              <p className="text-base md:text-lg text-foreground/40 font-light">
+              <p className="text-base md:text-lg text-foreground/40 font-light pt-0 lg:pt-6">
                 {subtitle}
               </p>
             </motion.div>
