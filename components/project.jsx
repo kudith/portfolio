@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, Lock, EyeOff } from "lucide-react";
 import SpotlightCard from "@/components/SpotlightCard/SpotlightCard";
 import CardSwap, { Card } from "@/components/CardSwap/CardSwap";
 // import { Button } from "@/components/ui/button";
@@ -27,15 +27,30 @@ const Tag = ({ children }) => (
 const ProjectCard = ({ project, delay = 0 }) => {
   return (
     <motion.div
+      className="h-full"
       id="showcase"
       layout
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -24 }}
-      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, y: 40, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{
+        duration: 0.8,
+        delay,
+        ease: [0.16, 1, 0.3, 1],
+        layout: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+      }}
+      whileHover={{
+        y: -8,
+        transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+      }}
     >
-      <SpotlightCard className="h-full backdrop-blur-[2px] bg-background/40 border-foreground/10">
-        <div className="flex flex-col gap-6">
+      <SpotlightCard className="h-full backdrop-blur-[2px] bg-background/40 border-foreground/10 transition-all duration-500 hover:bg-background/60 hover:border-foreground/20">
+        <motion.div
+          className="h-full flex flex-col gap-6"
+          whileHover={{
+            transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+          }}
+        >
           <div className="space-y-2">
             <h4 className="text-2xl font-serif tracking-tight text-foreground">
               {project.title}
@@ -50,25 +65,47 @@ const ProjectCard = ({ project, delay = 0 }) => {
               <Tag key={t}>{t}</Tag>
             ))}
           </div>
+          <div className="mt-auto flex gap-3 pt-2">
+            {project.live && project.live !== "#" ? (
+              <Link
+                href={project.live}
+                rel="noopener noreferrer"
+                target="_blank"
+                className="group inline-flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground transition-colors"
+              >
+                <ExternalLink className="w-4 h-4" />
+                <span>Live</span>
+              </Link>
+            ) : (
+              <div className="inline-flex items-center gap-2 text-sm text-foreground/40">
+                <EyeOff className="w-4 h-4" />
+                <span>Private</span>
+              </div>
+            )}
 
-          <div className="flex gap-3 pt-2">
-            <Link
-              href={project.live}
-              className="group inline-flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground transition-colors"
-            >
-              <ExternalLink className="w-4 h-4" />
-              <span>Live</span>
-            </Link>
-            <span className="text-foreground/20">/</span>
-            <Link
-              href={project.repo}
-              className="group inline-flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground transition-colors"
-            >
-              <Github className="w-4 h-4" />
-              <span>Code</span>
-            </Link>
+            {project.live &&
+              project.live !== "#" &&
+              project.repo &&
+              project.repo !== "#" && (
+                <span className="text-foreground/20">/</span>
+              )}
+
+            {project.repo && project.repo !== "#" ? (
+              <Link
+                href={project.repo}
+                className="group inline-flex items-center gap-2 text-sm text-foreground/70 hover:text-foreground transition-colors"
+              >
+                <Github className="w-4 h-4" />
+                <span>Code</span>
+              </Link>
+            ) : (
+              <div className="inline-flex items-center gap-2 text-sm text-foreground/40">
+                <Lock className="w-4 h-4" />
+                <span>Private</span>
+              </div>
+            )}
           </div>
-        </div>
+        </motion.div>
       </SpotlightCard>
     </motion.div>
   );
@@ -137,29 +174,48 @@ const FeaturedShowcase = () => {
       </motion.div>
 
       {showSwap && (
-        <div className="lg:block">
+        <motion.div
+          className="lg:block"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 0.8,
+            delay: 0.4,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+        >
           <CardSwap width={520} height={380} pauseOnHover delay={4800}>
-            {topProjects.map((p) => (
+            {topProjects.map((p, idx) => (
               <Card key={p.title} className="rounded-2xl overflow-hidden">
-                <div className="w-full h-full p-6 bg-card bg-[radial-gradient(1200px_400px_at_0%_0%,rgba(0,0,0,0.06),transparent_60%)] dark:bg-[radial-gradient(1200px_400px_at_0%_0%,rgba(255,255,255,0.08),transparent_60%)] flex flex-col justify-between">
+                <motion.div
+                  className="w-full h-full p-6 bg-card bg-[radial-gradient(1200px_400px_at_0%_0%,rgba(0,0,0,0.06),transparent_60%)] dark:bg-[radial-gradient(1200px_400px_at_0%_0%,rgba(255,255,255,0.08),transparent_60%)] flex flex-col justify-between"
+                  whileHover={{
+                    scale: 1.02,
+                    transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+                  }}
+                >
                   <div className="text-muted-foreground text-sm">
                     {Array.isArray(p.tags) ? p.tags.join(" • ") : ""}
                   </div>
                   <div className="text-card-foreground text-lg font-serif">
                     {p.title}
                   </div>
-                </div>
+                </motion.div>
               </Card>
             ))}
           </CardSwap>
-        </div>
+        </motion.div>
       )}
     </div>
   );
 };
 
 export default function ProjectSection() {
-  const visibleProjects = projects.slice(0, 4);
+  const [showAll, setShowAll] = useState(false);
+  const initialProjects = projects.slice(0, 4);
+  const visibleProjects = showAll ? projects : initialProjects;
+  const hasMoreProjects = projects.length > 4;
+
   return (
     <section id="work" className="relative px-6 lg:px-16 py-28">
       <div className="max-w-6xl mx-auto">
@@ -178,16 +234,74 @@ export default function ProjectSection() {
         </div>
 
         <motion.div layout className="mt-16">
-          <AnimatePresence initial={false} mode="popLayout">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 items-stretch"
+            layout
+            transition={{
+              layout: { type: "spring", stiffness: 320, damping: 34 },
+            }}
+          >
+            <AnimatePresence initial={false} mode="popLayout">
               {visibleProjects.map((p, idx) => (
-                <ProjectCard key={p.title} project={p} delay={idx * 0.05} />
+                <motion.div
+                  key={p.title}
+                  layout
+                  className="h-full"
+                  initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -12, scale: 0.98 }}
+                  transition={{
+                    duration: 0.35,
+                    ease: [0.16, 1, 0.3, 1],
+                    layout: { type: "spring", stiffness: 320, damping: 34 },
+                  }}
+                >
+                  <ProjectCard project={p} delay={0} />
+                </motion.div>
               ))}
-            </div>
-          </AnimatePresence>
+            </AnimatePresence>
+          </motion.div>
         </motion.div>
 
-        {/* Removed "See more" toggle to always show only the top 4 */}
+        {hasMoreProjects && (
+          <motion.div
+            layout
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{
+              duration: 0.4,
+              ease: [0.16, 1, 0.3, 1],
+              layout: { type: "spring", stiffness: 320, damping: 34 },
+            }}
+            className="mt-12 text-center"
+          >
+            <motion.button
+              layout
+              onClick={() => setShowAll(!showAll)}
+              className="inline-flex items-center gap-2 px-6 py-3 text-sm text-foreground/70 hover:text-foreground transition-all duration-300 border border-foreground/10 hover:border-foreground/20 rounded-full bg-background/50 backdrop-blur-sm hover:bg-background/70"
+              whileHover={{
+                scale: 1.05,
+                y: -2,
+                transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] },
+              }}
+              whileTap={{
+                scale: 0.98,
+                transition: { duration: 0.1 },
+              }}
+            >
+              <motion.span
+                key={showAll ? "less" : "more"}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {showAll
+                  ? "Show Less"
+                  : `See ${projects.length - 4} More Projects`}
+              </motion.span>
+            </motion.button>
+          </motion.div>
+        )}
       </div>
     </section>
   );

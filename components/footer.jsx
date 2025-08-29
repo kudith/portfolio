@@ -2,7 +2,15 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Github, Linkedin, Mail, ArrowRight, X } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  ArrowRight,
+  X,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,22 +39,45 @@ export default function Footer({
   const [fromName, setFromName] = useState("");
   const [fromEmail, setFromEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [statusType, setStatusType] = useState("");
 
-  const handleSubmit = (e) => {
+  const openContact = () => {
+    setIsContactOpen(true);
+    setIsSending(false);
+    setStatusMessage("");
+    setStatusType("");
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const subject = `Contact from ${fromName || "Portfolio"}`;
-    const bodyLines = [
-      fromName ? `Name: ${fromName}` : null,
-      fromEmail ? `Email: ${fromEmail}` : null,
-      "",
-      message || "",
-    ].filter(Boolean);
-    const body = bodyLines.join("\n");
-    const mailto = `mailto:${email}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
-    setIsContactOpen(false);
+    setStatusMessage("");
+    setIsSending(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fromName, fromEmail, message }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data?.error || "Failed to send email");
+      }
+      setStatusType("success");
+      setStatusMessage("Your message was sent successfully.");
+      setFromName("");
+      setFromEmail("");
+      setMessage("");
+      setTimeout(() => setIsContactOpen(false), 800);
+    } catch (err) {
+      setStatusType("error");
+      setStatusMessage(
+        err?.message || "Something went wrong. Please try again."
+      );
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -85,7 +116,7 @@ export default function Footer({
               >
                 <button
                   type="button"
-                  onClick={() => setIsContactOpen(true)}
+                  onClick={openContact}
                   className="group inline-flex items-center gap-3 px-6 py-3 rounded-full bg-foreground text-background hover:bg-foreground/90 transition-all duration-300 shadow-lg"
                 >
                   <Mail className="w-4 h-4" />
@@ -235,6 +266,7 @@ export default function Footer({
                     placeholder="Your name"
                     value={fromName}
                     onChange={(e) => setFromName(e.target.value)}
+                    disabled={isSending}
                   />
                 </div>
 
@@ -247,6 +279,7 @@ export default function Footer({
                     value={fromEmail}
                     onChange={(e) => setFromEmail(e.target.value)}
                     required
+                    disabled={isSending}
                   />
                 </div>
 
@@ -259,6 +292,7 @@ export default function Footer({
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     required
+                    disabled={isSending}
                   />
                 </div>
 
@@ -267,15 +301,37 @@ export default function Footer({
                     type="button"
                     variant="ghost"
                     onClick={() => setIsContactOpen(false)}
+                    disabled={isSending}
                   >
                     Cancel
                   </Button>
-                  <Button type="submit">Send email</Button>
+                  <Button type="submit" disabled={isSending}>
+                    {isSending ? (
+                      <span className="animate-pulse">Sending...</span>
+                    ) : (
+                      "Send email"
+                    )}
+                  </Button>
                 </div>
-                <p className="text-xs text-foreground/60 pt-1">
-                  Your message will open in your email app addressed to{" "}
-                  <span className="font-medium">{email}</span>.
-                </p>
+                {statusMessage && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 4, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    className={`mt-1 flex items-center gap-2 text-xs rounded-md border px-3 py-2 ${
+                      statusType === "success"
+                        ? "text-emerald-700 border-emerald-300/40 bg-emerald-500/5"
+                        : "text-red-700 border-red-300/40 bg-red-500/5"
+                    }`}
+                  >
+                    {statusType === "success" ? (
+                      <CheckCircle className="w-4 h-4" />
+                    ) : (
+                      <AlertCircle className="w-4 h-4" />
+                    )}
+                    <span>{statusMessage}</span>
+                  </motion.div>
+                )}
               </form>
             </motion.div>
           </div>

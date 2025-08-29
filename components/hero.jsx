@@ -212,7 +212,7 @@ export default function HeroSection({
   location = "Tasikmalaya, ID",
   status = "Available for projects",
   cvUrl = "/resume.pdf",
-  contactEmail = "hello@adityapratama.dev",
+  contactEmail = "ginanjar.aditya15@gmail.com",
   socialLinks = [
     {
       name: "github",

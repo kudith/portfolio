@@ -21,7 +21,7 @@ export default function Navbar({
     { name: "Work", href: "#work" },
     { name: "Contact", href: "#contact" },
   ],
-  contactEmail = "hello@adityapratama.dev",
+  contactEmail = "ginanjar.aditya15@gmail.com",
   className = "",
 }) {
   const [isOpen, setIsOpen] = useState(false);
